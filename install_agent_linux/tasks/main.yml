@@ -20,25 +20,23 @@
     state: directory
     mode: '0755'
 
-#- name: Download locally Elastic Agent ZIP (Linux)
-#  get_url:
-#    url: "https://artifacts.elastic.co/downloads/beats/elastic-agent/elastic-agent-{{ elastic_agent_version }}-linux-x86_64.tar.gz"
-#    dest: "/tmp/elastic-agent.tar.gz"
-#    mode: '0644'
-#  delegate_to: localhost
-#  become: no
-#  run_once: true
-
-#- name: Copia il pacchetto giusto sul target
-#  copy:
-#    src: "/tmp/elastic-agent.tar.gz"
-#    dest: "/tmp/elastic-agent.tar.gz"
-
 - name: Download locally Elastic Agent ZIP (Linux)
   get_url:
     url: "https://artifacts.elastic.co/downloads/beats/elastic-agent/elastic-agent-{{ elastic_agent_version }}-linux-x86_64.tar.gz"
     dest: "/tmp/elastic-agent.tar.gz"
     mode: '0644'
+  delegate_to: localhost
+  run_once: true
+- name: Copia il pacchetto giusto sul target
+  copy:
+    src: "/tmp/elastic-agent.tar.gz"
+    dest: "/tmp/elastic-agent.tar.gz"
+
+#- name: Download locally Elastic Agent ZIP (Linux)
+#  get_url:
+#    url: "https://artifacts.elastic.co/downloads/beats/elastic-agent/elastic-agent-{{ elastic_agent_version }}-linux-x86_64.tar.gz"
+#    dest: "/tmp/elastic-agent.tar.gz"
+#    mode: '0644'
 
 - name: Extract Elastic Agent (Linux)
   unarchive:
@@ -56,15 +54,14 @@
   args:
     creates: "/etc/systemd/system/elastic-agent.service"
 
-#- name: Delete locally Elastic Agent TAR.GZ after extraction (Linux)
-#  delegate_to: localhost
-#  become: no
-#  run_once: true
-#  file:
-#    path: "{{ item }}"
-#    state: absent
-#  loop:
-#    - "/tmp/elastic-agent.tar.gz"
+- name: Delete locally Elastic Agent TAR.GZ after extraction (Linux)
+  delegate_to: localhost
+  run_once: true
+  file:
+    path: "{{ item }}"
+    state: absent
+  loop:
+    - "/tmp/elastic-agent.tar.gz"
 
 - name: Delete Elastic Agent tar.gz and install directory after installation (Linux)
   ansible.builtin.file:
