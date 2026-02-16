@@ -1,0 +1,28 @@
+---
+# Fallback cleanup for Elastic Agent when uninstall fails or crashes
+
+- name: Delete Elastic Agent service (if exists)
+  ansible.windows.win_shell: |
+    $svc = Get-Service -Name "Elastic Agent" -ErrorAction SilentlyContinue
+    if ($svc) {
+      sc.exe delete "Elastic Agent"
+    }
+  ignore_errors: yes
+
+- name: Remove Elastic Agent install directory
+  ansible.windows.win_file:
+    path: "C:\\Program Files\\Elastic\\Agent"
+    state: absent
+  ignore_errors: yes
+
+- name: Remove Elastic Agent data directory
+  ansible.windows.win_file:
+    path: "C:\\ProgramData\\Elastic\\Agent"
+    state: absent
+  ignore_errors: yes
+
+- name: Remove Elastic Agent logs directory (if exists)
+  ansible.windows.win_file:
+    path: "C:\\ProgramData\\Elastic\\Elastic-Agent"
+    state: absent
+  ignore_errors: yes

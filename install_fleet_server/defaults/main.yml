@@ -1,0 +1,4 @@
+install_dir: "/tmp/elastic-agent"
+insecure: false
+fleet_server_port: 8220
+fleet_server_policy: fleet-server-policy
