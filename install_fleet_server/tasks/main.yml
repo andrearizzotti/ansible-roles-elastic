@@ -44,7 +44,7 @@
     dest: "{{ install_dir }}"
     remote_src: yes
 
-- name: Install Elastic Agent as systemd service (Linux)
+- name: Install Elastic Agent as systemd service (Linux - secure)
   command: >
     {{ install_dir }}/elastic-agent-{{ elastic_agent_version }}-linux-x86_64/elastic-agent install
       --fleet-server-es={{ elastic_url }}
@@ -53,11 +53,12 @@
       --fleet-server-port={{ fleet_server_port }}
       --fleet-server-es-ca-trusted-fingerprint={{ fleet_server_es_ca_trusted_fingerprint }}   
       --install-servers   
+      --non-interactive
   args:
     creates: "/etc/systemd/system/elastic-agent.service"
   when: not insecure
 
-- name: Install Elastic Agent as systemd service (Linux)
+- name: Install Elastic Agent as systemd service (Linux - insecure)
   command: >
     {{ install_dir }}/elastic-agent-{{ elastic_agent_version }}-linux-x86_64/elastic-agent install
       --fleet-server-es={{ elastic_url }}
@@ -66,6 +67,7 @@
       --fleet-server-port= {{ fleet_server_port }}
       --fleet-server-es-insecure
       --install-servers
+      --non-interactive
   args:
     creates: "/etc/systemd/system/elastic-agent.service"
   when: insecure
