@@ -50,7 +50,7 @@
       --fleet-server-es={{ elastic_url }}
       --fleet-server-service-token={{ fleet_server_service_token }}
       --fleet-server-policy={{ fleet_server_policy }}
-      --fleet-server-port= {{ fleet_server_port }}
+      --fleet-server-port={{ fleet_server_port }}
       --fleet-server-es-ca-trusted-fingerprint={{ fleet_server_es_ca_trusted_fingerprint }}      
   args:
     creates: "/etc/systemd/system/elastic-agent.service"
