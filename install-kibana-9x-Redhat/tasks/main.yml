@@ -1,7 +1,5 @@
 - name: Import Elastic GPG key
   ansible.builtin.command: rpm --import https://artifacts.elastic.co/GPG-KEY-elasticsearch
-  args:
-    warn: false
 
 #- name: Import Elastic GPG key
 #  ansible.builtin.rpm_key:
