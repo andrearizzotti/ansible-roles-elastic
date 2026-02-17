@@ -1,0 +1,5 @@
+es_major_version: "9.x"
+es_version: "9.3.0"
+kibana_port: 5601
+kibana_es_security_enabled: false
+audit_logging_enabled: false
