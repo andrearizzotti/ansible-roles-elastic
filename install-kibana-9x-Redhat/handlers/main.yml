@@ -16,7 +16,7 @@
 - name: Wait for kibana to startup
   listen: restart kibana
   wait_for:
-    host: "{{ kibana_api_host }}"
-    port: "{{ kibana_api_port }}"
+    host: "{{ ansible_default_ipv4.address }}"
+    port: "{{ kibana_port }}"
     delay: 5
     connect_timeout: 1
