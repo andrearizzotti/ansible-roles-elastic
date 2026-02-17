@@ -1,7 +1,12 @@
 - name: Import Elastic GPG key
-  ansible.builtin.rpm_key:
-    state: present
-    key: https://artifacts.elastic.co/GPG-KEY-elasticsearch
+  ansible.builtin.command: rpm --import https://artifacts.elastic.co/GPG-KEY-elasticsearch
+  args:
+    warn: false
+
+#- name: Import Elastic GPG key
+#  ansible.builtin.rpm_key:
+#    state: present
+#    key: https://artifacts.elastic.co/GPG-KEY-elasticsearch
 
 - name: Create yum repo file
   ansible.builtin.template:
@@ -27,8 +32,8 @@
   notify: restart kibana
 
 - name: Import security tasks
-  ansible.builtin.import_tasks: security.yml
-  when: kibana_security_enabled
+  ansible.builtin.import_tasks: es_security.yml
+  when: kibana_es_security_enabled
 
 - name: Enable Kibana Service
   ansible.builtin.service:
